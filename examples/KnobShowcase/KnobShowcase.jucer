@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="BVSK" name="KnobShowcase" projectType="guiapp"
+              useAppConfig="1" addUsingNamespaceToJuceHeader="0"
+              bundleIdentifier="com.borato.knob-showcase"
+              companyName="Borato" cppLanguageStandard="17"
+              jucerFormatVersion="1">
+
+  <MAINGROUP id="root" name="KnobShowcase">
+    <GROUP id="src" name="Source">
+      <FILE id="f1" name="Main.cpp"              file="Source/Main.cpp"              compile="1"/>
+      <FILE id="f2" name="ShowcaseComponent.h"   file="Source/ShowcaseComponent.h"   compile="0" resource="0"/>
+      <FILE id="f3" name="ShowcaseComponent.cpp" file="Source/ShowcaseComponent.cpp" compile="1"/>
+    </GROUP>
+  </MAINGROUP>
+
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <!--
+          headerPath aponta para include/ da raiz do repositório.
+          Relativo a examples/KnobShowcase/ → ../../include
+        -->
+        <CONFIGURATION isDebug="1" name="Debug"
+                       headerPath="../../include"
+                       libraryPath=""
+                       defines="JUCE_DEBUG=1"/>
+        <CONFIGURATION isDebug="0" name="Release"
+                       headerPath="../../include"
+                       libraryPath=""
+                       defines="NDEBUG=1"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <!-- módulo custom: examples/KnobShowcase/../../modules → modules/ -->
+        <MODULEPATH id="borato_vhsstyle" path="../../modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+
+  <MODULES>
+    <!-- Módulo custom da biblioteca (inclui todos os controles VHS) -->
+    <MODULE id="borato_vhsstyle"       showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+
+    <!-- Módulos JUCE padrão (instalação global do JUCE 8) -->
+    <MODULE id="juce_core"             showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures"  showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events"           showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics"         showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics"       showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra"        showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+
+  <JUCEOPTIONS/>
+
+</JUCERPROJECT>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="BVS1" name="BoratoVHSStyle" projectType="library" useAppConfig="1"
+              addUsingNamespaceToJuceHeader="0" bundleIdentifier="com.borato.vhsstyle"
+              version="0.1.0" companyName="Borato" cppLanguageStandard="17"
+              jucerFormatVersion="1">
+  <MAINGROUP id="bvs_root" name="BoratoVHSStyle">
+    <GROUP id="bvs_include" name="include">
+      <GROUP id="bvs_inc_pkg" name="BoratoVHSStyle">
+        <FILE id="h0" name="BoratoVHSStyle.h" file="include/BoratoVHSStyle/BoratoVHSStyle.h"
+              compile="0" resource="0"/>
+        <FILE id="h1" name="ThemeConfig.h" file="include/BoratoVHSStyle/ThemeConfig.h"
+              compile="0" resource="0"/>
+        <FILE id="h2" name="Colours.h" file="include/BoratoVHSStyle/Colours.h"
+              compile="0" resource="0"/>
+        <FILE id="h3" name="Fonts.h" file="include/BoratoVHSStyle/Fonts.h"
+              compile="0" resource="0"/>
+        <GROUP id="bvs_bg" name="Backgrounds">
+          <FILE id="h4" name="VHSGridBackground.h" file="include/BoratoVHSStyle/Backgrounds/VHSGridBackground.h"
+                compile="0" resource="0"/>
+          <FILE id="h5" name="ScanlinesOverlay.h" file="include/BoratoVHSStyle/Backgrounds/ScanlinesOverlay.h"
+                compile="0" resource="0"/>
+          <FILE id="h6" name="VHSNoiseLayer.h" file="include/BoratoVHSStyle/Backgrounds/VHSNoiseLayer.h"
+                compile="0" resource="0"/>
+        </GROUP>
+        <GROUP id="bvs_ctrl" name="Controls">
+          <FILE id="h7" name="VHSLookAndFeel.h" file="include/BoratoVHSStyle/Controls/VHSLookAndFeel.h"
+                compile="0" resource="0"/>
+          <FILE id="h8" name="VHSKnob.h" file="include/BoratoVHSStyle/Controls/VHSKnob.h"
+                compile="0" resource="0"/>
+          <FILE id="h9" name="VHSSlider.h" file="include/BoratoVHSStyle/Controls/VHSSlider.h"
+                compile="0" resource="0"/>
+          <FILE id="hA" name="VHSButton.h" file="include/BoratoVHSStyle/Controls/VHSButton.h"
+                compile="0" resource="0"/>
+          <FILE id="hB" name="VHSMeter.h" file="include/BoratoVHSStyle/Controls/VHSMeter.h"
+                compile="0" resource="0"/>
+        </GROUP>
+        <GROUP id="bvs_utils" name="Utils">
+          <FILE id="hC" name="ThemeApply.h" file="include/BoratoVHSStyle/Utils/ThemeApply.h"
+                compile="0" resource="0"/>
+          <FILE id="hD" name="AudioReactive.h" file="include/BoratoVHSStyle/Utils/AudioReactive.h"
+                compile="0" resource="0"/>
+        </GROUP>
+      </GROUP>
+    </GROUP>
+    <GROUP id="bvs_src" name="src">
+      <FILE id="c0" name="ThemeConfig.cpp" file="src/ThemeConfig.cpp"/>
+      <FILE id="c1" name="Colours.cpp" file="src/Colours.cpp"/>
+      <FILE id="c2" name="Fonts.cpp" file="src/Fonts.cpp"/>
+      <GROUP id="bvs_bg_src" name="Backgrounds">
+        <FILE id="c3" name="VHSGridBackground.cpp" file="src/Backgrounds/VHSGridBackground.cpp"/>
+        <FILE id="c4" name="ScanlinesOverlay.cpp" file="src/Backgrounds/ScanlinesOverlay.cpp"/>
+        <FILE id="c5" name="VHSNoiseLayer.cpp" file="src/Backgrounds/VHSNoiseLayer.cpp"/>
+      </GROUP>
+      <GROUP id="bvs_ctrl_src" name="Controls">
+        <FILE id="c6" name="VHSLookAndFeel.cpp" file="src/Controls/VHSLookAndFeel.cpp"/>
+        <FILE id="c7" name="VHSKnob.cpp" file="src/Controls/VHSKnob.cpp"/>
+        <FILE id="c8" name="VHSSlider.cpp" file="src/Controls/VHSSlider.cpp"/>
+        <FILE id="c9" name="VHSButton.cpp" file="src/Controls/VHSButton.cpp"/>
+        <FILE id="cA" name="VHSMeter.cpp" file="src/Controls/VHSMeter.cpp"/>
+      </GROUP>
+      <GROUP id="bvs_utils_src" name="Utils">
+        <FILE id="cB" name="ThemeApply.cpp" file="src/Utils/ThemeApply.cpp"/>
+        <FILE id="cC" name="AudioReactive.cpp" file="src/Utils/AudioReactive.cpp"/>
+      </GROUP>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" osxCompatibility="10.13 SDK">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_events" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <VS2022 targetFolder="Builds/VisualStudio2022">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_events" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="BoratoVHSStyle" headerPath="include"
+                       defines=""/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_events" path="../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0">
+      <DEPENDENCIES/>
+    </MODULE>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0">
+      <DEPENDENCIES>
+        <MODULE id="juce_core"/>
+      </DEPENDENCIES>
+    </MODULE>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0">
+      <DEPENDENCIES>
+        <MODULE id="juce_core"/>
+        <MODULE id="juce_graphics"/>
+      </DEPENDENCIES>
+    </MODULE>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0">
+      <DEPENDENCIES>
+        <MODULE id="juce_core"/>
+        <MODULE id="juce_graphics"/>
+        <MODULE id="juce_gui_basics"/>
+      </DEPENDENCIES>
+    </MODULE>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

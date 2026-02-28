@@ -1,0 +1,49 @@
+# Operating system
+.DS_Store
+Thumbs.db
+
+# IDEs and local config
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.VC.db
+*.VC.opendb
+*.ncb
+ipch/
+
+# Local build folders (CMake + Projucer)
+.codex-build/
+.codex-build-ninja/
+build/
+build-demo/
+Builds/
+
+# CMake generated artifacts
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/compile_commands.json
+**/CTestTestfile.cmake
+**/Testing/
+**/_deps/
+
+# Visual Studio / JUCE compiled output
+**/x64/
+**/Debug/
+**/Release/
+**/*.tlog/
+**/*.lastbuildstate
+**/*.recipe
+**/*.log
+**/*.ilk
+**/*.pdb
+**/*.obj
+**/*.lib
+**/*.exp
+**/*.dll
+**/*.exe
+
+# Projucer auto-generated JuceLibraryCode (regenerated from .jucer — do NOT commit)
+**/JuceLibraryCode/
