@@ -5,17 +5,12 @@
 namespace bvs {
 
 class VHSSlider : public juce::Slider {
-
 public:
-
-    explicit VHSSlider(bool horizontal = true) {
-
+    explicit VHSSlider(bool horizontal = true)
+    {
         setSliderStyle(horizontal ? LinearHorizontal : LinearVertical);
-
-        setTextBoxStyle(NoTextBox, false, 0,0);
-
+        setTextBoxStyle(NoTextBox, false, 0, 0);
     }
-
 };
 
 }

@@ -5,19 +5,16 @@
 namespace bvs {
 
 class VHSToggle : public juce::ToggleButton {
-
-public: using juce::ToggleButton::ToggleButton; };
+public:
+    using juce::ToggleButton::ToggleButton;
+};
 
 class VHSMomentary : public juce::TextButton {
-
 public:
-
-    VHSMomentary(juce::String text = {}) : juce::TextButton(std::move(text)) {
-
+    VHSMomentary(juce::String text = {}) : juce::TextButton(std::move(text))
+    {
         setClickingTogglesState(false);
-
     }
-
 };
 
 }

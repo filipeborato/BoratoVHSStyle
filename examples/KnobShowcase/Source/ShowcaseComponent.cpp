@@ -16,9 +16,12 @@ ShowcaseComponent::ShowcaseComponent()
     grid_.setSpacing (24);
     scanlines_.setOpacity (0.12f);
     scanlines_.setSpeed (0.5f);
+    noise_.setAmount (0.06f);
+    noise_.setFPS (24);
 
     addAndMakeVisible (grid_);
     addAndMakeVisible (scanlines_);
+    addAndMakeVisible (noise_);
 
     // ---- VHSKnobPro -------------------------------------------------------
     knobPro_.setRange (-48.0, 0.0, 0.1);
@@ -70,7 +73,7 @@ ShowcaseComponent::ShowcaseComponent()
     setupLabel (labelDigital_, "VHSKnobDigital");
     setupLabel (pulseLabel_,   "Pulse Intensity");
 
-    setSize (700, 480);
+    setSize (700, 510);
     startTimerHz (60);
 }
 
@@ -113,6 +116,13 @@ void ShowcaseComponent::timerCallback()
 void ShowcaseComponent::paint (juce::Graphics& g)
 {
     g.fillAll (Colours::vhsDark);
+
+    // Title bar
+    g.setFont (Fonts::heading (18.f));
+    g.setColour (Colours::vhsCyan);
+    g.drawText ("BoratoVHSStyle — Knob Showcase",
+                0, 0, getWidth(), 36,
+                juce::Justification::centred);
 }
 
 // ---------------------------------------------------------------------------
@@ -122,10 +132,11 @@ void ShowcaseComponent::resized()
 
     grid_.setBounds      (area);
     scanlines_.setBounds (area);
+    noise_.setBounds     (area);
 
     // Three equal columns
     const int colW    = area.getWidth() / 3;
-    const int padH    = 32;
+    const int padH    = 36 + 10; // title bar (36px) + gap
     const int knobSz  = juce::jmin (colW - 40, 160);
     const int meterH  = 90;
     const int labelH  = 22;

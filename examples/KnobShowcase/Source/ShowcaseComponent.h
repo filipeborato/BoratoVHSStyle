@@ -10,7 +10,7 @@
  *   [VHSMeter]        [VHSMeter]         [VHSMeter]
  *   Label             Label              Label
  *
- * A VHSGridBackground + ScanlinesOverlay fills the window.
+ * A VHSGridBackground + ScanlinesOverlay + VHSNoiseLayer fills the window.
  */
 class ShowcaseComponent final : public juce::Component,
                                  private juce::Timer
@@ -26,6 +26,7 @@ private:
     // ---- Background layers -----------------------------------------------
     bvs::VHSGridBackground  grid_;
     bvs::ScanlinesOverlay   scanlines_;
+    bvs::VHSNoiseLayer      noise_;
 
     // ---- Look and feel ---------------------------------------------------
     bvs::VHSLookAndFeel     laf_;
