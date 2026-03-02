@@ -47,3 +47,4 @@ Builds/
 
 # Projucer auto-generated JuceLibraryCode (regenerated from .jucer — do NOT commit)
 **/JuceLibraryCode/
+_codeql_detected_source_root
