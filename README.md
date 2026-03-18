@@ -187,7 +187,7 @@ namespace bvs::Colours {
 ### CMake
 
 ```bash
-git clone https://github.com/borato/BoratoVHSStyle.git
+git clone https://github.com/filipeborato/BoratoVHSStyle.git
 cd BoratoVHSStyle
 cmake -B build -DBVS_BUILD_SHOWCASE=ON
 cmake --build build --config Release
