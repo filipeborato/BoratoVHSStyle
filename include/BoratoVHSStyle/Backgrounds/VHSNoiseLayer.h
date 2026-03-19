@@ -19,7 +19,7 @@ private:
     void regenerate();
 
     float amount = 0.06f;  // 0.15f era muito alto para grain escuro
-    juce::Image noise { juce::Image::RGB, 16, 16, false };
+    juce::Image noise { juce::Image::ARGB, 16, 16, true };
 };
 
 }

@@ -14,7 +14,7 @@ void VHSNoiseLayer::timerCallback(){ regenerate(); repaint(); }
 
 void VHSNoiseLayer::regenerate()
 {
-    noise = juce::Image(juce::Image::RGB, 64, 64, false);
+    noise = juce::Image(juce::Image::ARGB, 64, 64, true);
 
     std::mt19937 rng((uint32_t)juce::Time::getMillisecondCounter());
 
