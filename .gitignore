@@ -12,6 +12,7 @@ Thumbs.db
 *.VC.opendb
 *.ncb
 ipch/
+.claude/
 
 # Local build folders (CMake + Projucer)
 .codex-build/
@@ -47,3 +48,4 @@ Builds/
 
 # Projucer auto-generated JuceLibraryCode (regenerated from .jucer — do NOT commit)
 **/JuceLibraryCode/
+_codeql_detected_source_root
