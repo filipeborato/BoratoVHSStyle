@@ -120,7 +120,7 @@ void ShowcaseComponent::paint (juce::Graphics& g)
     // Title bar
     g.setFont (Fonts::heading (18.f));
     g.setColour (Colours::vhsCyan);
-    g.drawText ("BoratoVHSStyle — Knob Showcase",
+    g.drawText ("BoratoVHSStyle -- Knob Showcase",
                 0, 0, getWidth(), 36,
                 juce::Justification::centred);
 }

@@ -12,6 +12,7 @@ Thumbs.db
 *.VC.opendb
 *.ncb
 ipch/
+.claude/
 
 # Local build folders (CMake + Projucer)
 .codex-build/
