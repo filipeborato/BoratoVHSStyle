@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(BoratoVHSStyle VERSION 0.1 LANGUAGES CXX)
+project(BoratoVHSStyle VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,24 +11,35 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ---------------------------------------------------------------------------
 option(BVS_FETCH_JUCE "Download JUCE automatically when it is not installed" ON)
 
-find_package(JUCE 8 CONFIG QUIET)
+set(BVS_JUCE_SOURCE_DIR "" CACHE PATH "Path to a JUCE source checkout")
 
-if(NOT JUCE_FOUND)
-    if(NOT BVS_FETCH_JUCE)
-        message(FATAL_ERROR
-            "JUCE 8 was not found. Set JUCE_DIR/CMAKE_PREFIX_PATH or enable BVS_FETCH_JUCE.")
+if(NOT BVS_JUCE_SOURCE_DIR AND EXISTS "C:/JUCE/CMakeLists.txt")
+    set(BVS_JUCE_SOURCE_DIR "C:/JUCE")
+endif()
+
+if(BVS_JUCE_SOURCE_DIR AND EXISTS "${BVS_JUCE_SOURCE_DIR}/CMakeLists.txt")
+    set(JUCE_BUILD_HELPER_TOOLS ON CACHE BOOL "Build JUCE helper tools in-tree" FORCE)
+    add_subdirectory("${BVS_JUCE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/juce" EXCLUDE_FROM_ALL)
+else()
+    find_package(JUCE CONFIG QUIET)
+
+    if(NOT JUCE_FOUND)
+        if(NOT BVS_FETCH_JUCE)
+            message(FATAL_ERROR
+                "JUCE was not found. Set BVS_JUCE_SOURCE_DIR/JUCE_DIR/CMAKE_PREFIX_PATH or enable BVS_FETCH_JUCE.")
+        endif()
+
+        include(FetchContent)
+
+        FetchContent_Declare(
+            juce
+            GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
+            GIT_TAG        8.0.7
+            GIT_SHALLOW    TRUE
+        )
+
+        FetchContent_MakeAvailable(juce)
     endif()
-
-    include(FetchContent)
-
-    FetchContent_Declare(
-        juce
-        GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
-        GIT_TAG        8.0.7
-        GIT_SHALLOW    TRUE
-    )
-
-    FetchContent_MakeAvailable(juce)
 endif()
 
 # ---------------------------------------------------------------------------
