@@ -1,6 +1,12 @@
 #pragma once
 
-#include <JuceHeader.h>
+#if __has_include(<JuceHeader.h>)
+    #include <JuceHeader.h>                          // Projucer build
+#else
+    #include <juce_gui_basics/juce_gui_basics.h>     // CMake build
+    #include <juce_gui_extra/juce_gui_extra.h>
+    #include <BoratoVHSStyle/BoratoVHSStyle.h>
+#endif
 
 /**
  * ShowcaseComponent — demonstrates all 3 VHS knob variants side by side.

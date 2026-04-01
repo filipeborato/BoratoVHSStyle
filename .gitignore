@@ -20,6 +20,7 @@ ipch/
 build/
 build-demo/
 Builds/
+build-showcase/
 
 # CMake generated artifacts
 **/CMakeFiles/
