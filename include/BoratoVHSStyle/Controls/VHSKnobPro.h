@@ -46,8 +46,8 @@ public:
     /** Minimum and maximum brightness for the procedural micro-texture [0, 255]. */
     void setTextureBrightness (int minBright, int maxBright) noexcept
     {
-        texBrightMin_ = minBright;
-        texBrightMax_ = maxBright;
+        texBrightMin_ = juce::jlimit (0, 255, juce::jmin (minBright, maxBright));
+        texBrightMax_ = juce::jlimit (0, 255, juce::jmax (minBright, maxBright));
         textureDirty_ = true;
         repaint();
     }
@@ -55,7 +55,7 @@ public:
     /** Maximum alpha for the micro-texture pixels [0, 1]. */
     void setTextureAlphaMax (float maxAlpha) noexcept
     {
-        texAlphaMax_   = maxAlpha;
+        texAlphaMax_   = juce::jlimit (0.0f, 1.0f, maxAlpha);
         textureDirty_  = true;
         repaint();
     }
