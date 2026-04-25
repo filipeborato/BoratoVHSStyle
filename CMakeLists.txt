@@ -18,10 +18,22 @@ if(NOT BVS_JUCE_SOURCE_DIR AND EXISTS "C:/JUCE/CMakeLists.txt")
 endif()
 
 if(BVS_JUCE_SOURCE_DIR AND EXISTS "${BVS_JUCE_SOURCE_DIR}/CMakeLists.txt")
+    # Read the version from the local checkout so we can fail fast for incompatible JUCE.
+    file(STRINGS "${BVS_JUCE_SOURCE_DIR}/CMakeLists.txt" _juce_ver_line
+         REGEX "^[ \t]*project\\(JUCE[ \t]" LIMIT_COUNT 1)
+    if(_juce_ver_line MATCHES "VERSION[ \t]+([0-9]+)")
+        set(_juce_major ${CMAKE_MATCH_1})
+        if(_juce_major LESS 8)
+            message(FATAL_ERROR
+                "BVS_JUCE_SOURCE_DIR points to JUCE ${_juce_major}.x, "
+                "but BoratoVHSStyle requires JUCE 8. "
+                "Please update BVS_JUCE_SOURCE_DIR to a JUCE 8 checkout.")
+        endif()
+    endif()
     set(JUCE_BUILD_HELPER_TOOLS ON CACHE BOOL "Build JUCE helper tools in-tree" FORCE)
     add_subdirectory("${BVS_JUCE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/juce" EXCLUDE_FROM_ALL)
 else()
-    find_package(JUCE CONFIG QUIET)
+    find_package(JUCE 8 CONFIG QUIET)
 
     if(NOT JUCE_FOUND)
         if(NOT BVS_FETCH_JUCE)
