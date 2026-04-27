@@ -46,11 +46,11 @@ void VHSKnobNeonRing::drawPulseHalo (juce::Graphics& g) const
     if (pulseIntensity_ < 0.01f)
         return;
 
-    const float haloR = geom_.radius * (1.18f + pulseIntensity_ * 0.22f);
+    const float haloR = geom_.radius * (1.12f + pulseIntensity_ * 0.16f);
     const auto&  c    = geom_.centre;
 
     juce::ColourGradient halo (
-        Colours::vhsBlue.withAlpha (pulseIntensity_ * 0.35f),
+        Colours::vhsCyan.withAlpha (pulseIntensity_ * 0.16f),
         c.x, c.y,
         juce::Colours::transparentBlack,
         c.x + haloR, c.y,
@@ -66,25 +66,34 @@ void VHSKnobNeonRing::drawBackground (juce::Graphics& g) const
     const float r = geom_.radius - ringThickness_ * 0.5f;
     const auto& c = geom_.centre;
 
+    const auto outer = juce::Rectangle<float> (c.x - r, c.y - r, r * 2.f, r * 2.f)
+                           .expanded (ringThickness_ * 0.38f);
+
+    g.setColour (juce::Colours::black.withAlpha (0.82f));
+    g.fillEllipse (outer);
+
     juce::ColourGradient grad (
-        Colours::vhsDark.brighter (0.08f), c.x, c.y,
-        Colours::vhsDark.darker   (0.35f), c.x, c.y + r,
+        Colours::vhsDark.brighter (0.10f), c.x, c.y - r * 0.35f,
+        Colours::vhsDark.darker   (0.62f), c.x, c.y + r,
         true);
 
     g.setGradientFill (grad);
     g.fillEllipse (c.x - r, c.y - r, r * 2.f, r * 2.f);
 
     // Subtle rim
-    g.setColour (Colours::vhsGrid.withAlpha (0.25f));
+    g.setColour (Colours::vhsGrid.withAlpha (0.34f));
     g.drawEllipse (c.x - r, c.y - r, r * 2.f, r * 2.f, 0.8f);
+
+    g.setColour (juce::Colours::white.withAlpha (0.06f));
+    g.drawEllipse (c.x - r + 2.f, c.y - r + 2.f, r * 2.f - 4.f, r * 2.f - 4.f, 0.7f);
 }
 
 // ---- Full-sweep dim ring (shows total travel range) ----------------------
 void VHSKnobNeonRing::drawSweepRing (juce::Graphics& g) const
 {
-    g.setColour (Colours::vhsGrid.withAlpha (0.30f));
+    g.setColour (Colours::vhsGrid.withAlpha (0.22f));
     g.strokePath (geom_.sweepArc,
-                  juce::PathStrokeType (ringThickness_,
+                  juce::PathStrokeType (ringThickness_ * 0.78f,
                                         juce::PathStrokeType::curved,
                                         juce::PathStrokeType::rounded));
 }
@@ -96,23 +105,23 @@ void VHSKnobNeonRing::drawDualGlowArc (juce::Graphics& g) const
         return;
 
     // Pass 1: wide outer glow (blue)
-    g.setColour (Colours::vhsBlue.withAlpha (0.28f));
+    g.setColour (Colours::vhsBlue.withAlpha (0.14f));
     g.strokePath (geom_.progressArc,
-                  juce::PathStrokeType (ringThickness_ * 2.8f,
+                  juce::PathStrokeType (ringThickness_ * 2.2f,
                                         juce::PathStrokeType::curved,
                                         juce::PathStrokeType::rounded));
 
     // Pass 2: medium glow (cyan, slightly narrower)
-    g.setColour (Colours::vhsCyan.withAlpha (0.45f));
+    g.setColour (Colours::vhsCyan.withAlpha (0.32f));
     g.strokePath (geom_.progressArc,
-                  juce::PathStrokeType (ringThickness_ * 1.55f,
+                  juce::PathStrokeType (ringThickness_ * 1.20f,
                                         juce::PathStrokeType::curved,
                                         juce::PathStrokeType::rounded));
 
     // Pass 3: tight bright core
-    g.setColour (Colours::vhsCyan.withAlpha (0.92f));
+    g.setColour (Colours::vhsCyan.withAlpha (0.82f));
     g.strokePath (geom_.progressArc,
-                  juce::PathStrokeType (ringThickness_ * 0.55f,
+                  juce::PathStrokeType (ringThickness_ * 0.42f,
                                         juce::PathStrokeType::curved,
                                         juce::PathStrokeType::rounded));
 }
@@ -120,18 +129,28 @@ void VHSKnobNeonRing::drawDualGlowArc (juce::Graphics& g) const
 // ---- Chromatic-aberration pointer ----------------------------------------
 void VHSKnobNeonRing::drawChromaticPointer (juce::Graphics& g) const
 {
-    const auto tip    = geom_.pointerTip (0.68f);
+    const auto tip    = geom_.pointerTip (0.66f);
     const auto centre = geom_.centre;
 
-    const juce::PathStrokeType lineStroke (2.2f, juce::PathStrokeType::curved,
+    const juce::PathStrokeType shadowStroke (4.2f, juce::PathStrokeType::curved,
+                                             juce::PathStrokeType::rounded);
+    const juce::PathStrokeType lineStroke (1.8f, juce::PathStrokeType::curved,
                                            juce::PathStrokeType::rounded);
+
+    {
+        juce::Path p;
+        p.startNewSubPath (centre.x, centre.y);
+        p.lineTo           (tip.x,   tip.y);
+        g.setColour (juce::Colours::black.withAlpha (0.55f));
+        g.strokePath (p, shadowStroke);
+    }
 
     // Magenta channel (shifted +1.5px X)
     {
         juce::Path p;
-        p.startNewSubPath (centre.x + 1.5f, centre.y);
-        p.lineTo           (tip.x + 1.5f,   tip.y);
-        g.setColour (Colours::vhsMagenta.withAlpha (0.65f));
+        p.startNewSubPath (centre.x + 0.8f, centre.y);
+        p.lineTo           (tip.x + 0.8f,   tip.y);
+        g.setColour (Colours::vhsMagenta.withAlpha (0.32f));
         g.strokePath (p, lineStroke);
     }
 
@@ -140,13 +159,13 @@ void VHSKnobNeonRing::drawChromaticPointer (juce::Graphics& g) const
         juce::Path p;
         p.startNewSubPath (centre.x, centre.y);
         p.lineTo           (tip.x,   tip.y);
-        g.setColour (Colours::vhsCyan);
+        g.setColour (Colours::vhsCyan.withAlpha (0.82f));
         g.strokePath (p, lineStroke);
     }
 
     // Tiny dot at tip for extra crispness
-    g.setColour (juce::Colours::white.withAlpha (0.85f));
-    g.fillEllipse (tip.x - 2.f, tip.y - 2.f, 4.f, 4.f);
+    g.setColour (juce::Colours::white.withAlpha (0.58f));
+    g.fillEllipse (tip.x - 1.6f, tip.y - 1.6f, 3.2f, 3.2f);
 }
 
 } // namespace bvs

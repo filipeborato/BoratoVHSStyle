@@ -89,12 +89,10 @@ void VHSLookAndFeel::drawBasicKnob (juce::Graphics& g,
 
     // Glow
     Colours::drawGlow (g, { c.x - r, c.y - r, r * 2.f, r * 2.f },
-                       Colours::vhsBlue, 0.7f, 2);
-    Colours::drawGlow (g, { c.x - r * 0.9f, c.y - r * 0.9f, r * 1.8f, r * 1.8f },
-                       Colours::vhsMagenta, 0.5f, 2);
+                       Colours::vhsBlue, 0.28f, 1);
 
     // Ticks
-    g.setColour (juce::Colours::white.withAlpha (0.6f));
+    g.setColour (Colours::vhsGrid.brighter (0.65f).withAlpha (0.42f));
     for (int i = 0; i <= 10; ++i)
     {
         const float a   = juce::jmap ((float)i, 0.f, 10.f, geom.startAngle, geom.endAngle);
@@ -106,9 +104,9 @@ void VHSLookAndFeel::drawBasicKnob (juce::Graphics& g,
 
     // Pointer with chromatic aberration
     const auto tip = geom.pointerTip (0.75f);
-    g.setColour (Colours::vhsCyan);
+    g.setColour (Colours::vhsCyan.withAlpha (0.78f));
     g.drawLine ({ c, tip }, 3.0f);
-    g.setColour (Colours::vhsMagenta.withAlpha (0.6f));
+    g.setColour (Colours::vhsMagenta.withAlpha (0.26f));
     g.drawLine ({ c.x + 0.5f, c.y, tip.x + 0.5f, tip.y }, 1.5f);
 }
 
@@ -124,17 +122,17 @@ void VHSLookAndFeel::drawProKnob (juce::Graphics& g,
     const auto  rt = 3.0f;
 
     // Glow
-    Colours::drawGlow (g, geom.bodyRect, Colours::vhsMagenta, 0.55f, 2);
+    Colours::drawGlow (g, geom.bodyRect, Colours::vhsMagenta, 0.20f, 1);
 
     // Radial body
-    juce::ColourGradient radial (Colours::vhsDark.brighter (0.35f), c.x, c.y,
-                                  Colours::vhsDark.darker   (0.40f), c.x, c.y + r,
+    juce::ColourGradient radial (Colours::vhsDark.brighter (0.18f), c.x, c.y,
+                                  Colours::vhsDark.darker   (0.58f), c.x, c.y + r,
                                   true);
     g.setGradientFill (radial);
     g.fillEllipse (geom.bodyRect);
 
     // Inner shadow
-    juce::ColourGradient shadow (juce::Colours::black.withAlpha (0.5f),
+    juce::ColourGradient shadow (juce::Colours::black.withAlpha (0.38f),
                                   c.x - r * 0.4f, c.y - r * 0.4f,
                                   juce::Colours::transparentBlack,
                                   c.x + r * 0.4f, c.y + r * 0.4f, true);
@@ -142,7 +140,7 @@ void VHSLookAndFeel::drawProKnob (juce::Graphics& g,
     g.fillEllipse (geom.bodyRect);
 
     // Rim
-    g.setColour (Colours::vhsGrid.withAlpha (0.55f));
+    g.setColour (juce::Colours::black.withAlpha (0.55f));
     g.drawEllipse (geom.bodyRect, 1.2f);
 
     // Progress arc
@@ -158,15 +156,23 @@ void VHSLookAndFeel::drawProKnob (juce::Graphics& g,
                                             juce::PathStrokeType::rounded));
     }
 
-    // Pointer
-    const auto transform = juce::AffineTransform::rotation (geom.currentAngle)
-                               .translated (c);
-    g.setColour (juce::Colours::black.withAlpha (0.5f));
-    g.fillPath (geom.pointerPath, transform.translated (2.f, 2.f));
-    g.setColour (Colours::vhsMagenta);
-    g.fillPath (geom.pointerPath, transform);
-    g.setColour (Colours::vhsCyan.withAlpha (0.38f));
-    g.fillPath (geom.pointerPath, transform.translated (-1.f, 0.f));
+    // Pointer: slim recessed indicator instead of a large triangular needle.
+    const auto inner = geom.pointerTip (0.18f);
+    const auto outer = geom.pointerTip (0.64f);
+    const juce::Line<float> shadowLine (inner.translated (1.2f, 1.4f),
+                                        outer.translated (1.2f, 1.4f));
+    const juce::Line<float> recessLine (inner, outer);
+
+    g.setColour (juce::Colours::black.withAlpha (0.70f));
+    g.drawLine (shadowLine, 4.6f);
+    g.setColour (juce::Colours::black.withAlpha (0.58f));
+    g.drawLine (recessLine, 3.8f);
+    g.setColour (Colours::vhsMagenta.withAlpha (0.78f));
+    g.drawLine (recessLine, 2.0f);
+
+    const auto tip = geom.pointerTip (0.67f);
+    g.setColour (Colours::vhsCyan.withAlpha (0.55f));
+    g.fillEllipse (tip.x - 2.0f, tip.y - 2.0f, 4.0f, 4.0f);
 
     juce::ignoreUnused (slider);
 }
@@ -183,16 +189,16 @@ void VHSLookAndFeel::drawNeonRingKnob (juce::Graphics& g,
     const float rt = 5.0f;
 
     // Dark body
-    juce::ColourGradient grad (Colours::vhsDark.brighter (0.08f), c.x, c.y,
-                                Colours::vhsDark.darker   (0.35f), c.x, c.y + r, true);
+    juce::ColourGradient grad (Colours::vhsDark.brighter (0.10f), c.x, c.y - r * 0.35f,
+                                Colours::vhsDark.darker   (0.62f), c.x, c.y + r, true);
     g.setGradientFill (grad);
     g.fillEllipse (c.x - r, c.y - r, r * 2.f, r * 2.f);
 
-    g.setColour (Colours::vhsGrid.withAlpha (0.22f));
+    g.setColour (Colours::vhsGrid.withAlpha (0.34f));
     g.drawEllipse (c.x - r, c.y - r, r * 2.f, r * 2.f, 0.8f);
 
     // Full-sweep dim ring
-    g.setColour (Colours::vhsGrid.withAlpha (0.28f));
+    g.setColour (Colours::vhsGrid.withAlpha (0.22f));
     g.strokePath (geom.sweepArc,
                   juce::PathStrokeType (rt, juce::PathStrokeType::curved,
                                         juce::PathStrokeType::rounded));
@@ -200,17 +206,17 @@ void VHSLookAndFeel::drawNeonRingKnob (juce::Graphics& g,
     // Dual-glow progress arc
     if (!geom.progressArc.isEmpty())
     {
-        g.setColour (Colours::vhsBlue.withAlpha (0.25f));
+        g.setColour (Colours::vhsBlue.withAlpha (0.14f));
         g.strokePath (geom.progressArc,
-                      juce::PathStrokeType (rt * 2.8f, juce::PathStrokeType::curved,
+                      juce::PathStrokeType (rt * 2.2f, juce::PathStrokeType::curved,
                                             juce::PathStrokeType::rounded));
-        g.setColour (Colours::vhsCyan.withAlpha (0.42f));
+        g.setColour (Colours::vhsCyan.withAlpha (0.32f));
         g.strokePath (geom.progressArc,
-                      juce::PathStrokeType (rt * 1.5f, juce::PathStrokeType::curved,
+                      juce::PathStrokeType (rt * 1.2f, juce::PathStrokeType::curved,
                                             juce::PathStrokeType::rounded));
-        g.setColour (Colours::vhsCyan);
+        g.setColour (Colours::vhsCyan.withAlpha (0.82f));
         g.strokePath (geom.progressArc,
-                      juce::PathStrokeType (rt * 0.5f, juce::PathStrokeType::curved,
+                      juce::PathStrokeType (rt * 0.42f, juce::PathStrokeType::curved,
                                             juce::PathStrokeType::rounded));
     }
 
@@ -221,15 +227,15 @@ void VHSLookAndFeel::drawNeonRingKnob (juce::Graphics& g,
 
     juce::Path pm;
     pm.startNewSubPath (c.x + 1.5f, c.y); pm.lineTo (tip.x + 1.5f, tip.y);
-    g.setColour (Colours::vhsMagenta.withAlpha (0.62f));
+    g.setColour (Colours::vhsMagenta.withAlpha (0.32f));
     g.strokePath (pm, ps);
 
     juce::Path pn;
     pn.startNewSubPath (c.x, c.y); pn.lineTo (tip.x, tip.y);
-    g.setColour (Colours::vhsCyan);
+    g.setColour (Colours::vhsCyan.withAlpha (0.82f));
     g.strokePath (pn, ps);
 
-    g.setColour (juce::Colours::white.withAlpha (0.8f));
+    g.setColour (juce::Colours::white.withAlpha (0.58f));
     g.fillEllipse (tip.x - 2.f, tip.y - 2.f, 4.f, 4.f);
 
     juce::ignoreUnused (slider);
@@ -258,28 +264,28 @@ void VHSLookAndFeel::drawDigitalKnob (juce::Graphics& g,
     {
         if (i < lit)
         {
-            g.setColour (Colours::vhsCyan.withAlpha (0.26f));
-            g.strokePath (segs[i], juce::PathStrokeType (rt * 2.2f,
+            g.setColour (Colours::vhsCyan.withAlpha (0.12f));
+            g.strokePath (segs[i], juce::PathStrokeType (rt * 1.65f,
                                     juce::PathStrokeType::curved,
                                     juce::PathStrokeType::rounded));
-            g.setColour (Colours::vhsCyan.withAlpha (0.90f));
+            g.setColour (Colours::vhsCyan.withAlpha (0.74f));
             g.strokePath (segs[i], stroke);
         }
         else if (i == lit)
         {
-            g.setColour (Colours::vhsMagenta);
+            g.setColour (Colours::vhsMagenta.withAlpha (0.86f));
             g.strokePath (segs[i], stroke);
         }
         else
         {
-            g.setColour (Colours::vhsGrid.withAlpha (0.22f));
+            g.setColour (Colours::vhsGrid.withAlpha (0.16f));
             g.strokePath (segs[i], stroke);
         }
     }
 
     // Centre label
     const float br = geom.radius * 0.52f;
-    g.setColour (Colours::vhsDark.withAlpha (0.85f));
+    g.setColour (Colours::vhsDark.withAlpha (0.92f));
     g.fillEllipse (c.x - br, c.y - br, br * 2.f, br * 2.f);
 
     const float fontSize = geom.radius * 0.36f;
@@ -290,7 +296,7 @@ void VHSLookAndFeel::drawDigitalKnob (juce::Graphics& g,
                       c.y - fontSize * 0.55f,
                       geom.radius, fontSize * 1.1f,
                       juce::Justification::centred, 1);
-    g.setColour (Colours::vhsCyan);
+    g.setColour (Colours::vhsCyan.withAlpha (0.84f));
     ga.draw (g);
 }
 

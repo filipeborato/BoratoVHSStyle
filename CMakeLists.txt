@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(BoratoVHSStyle VERSION 0.1 LANGUAGES CXX)
+project(BoratoVHSStyle VERSION 0.1 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -11,24 +11,47 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # ---------------------------------------------------------------------------
 option(BVS_FETCH_JUCE "Download JUCE automatically when it is not installed" ON)
 
-find_package(JUCE 8 CONFIG QUIET)
+set(BVS_JUCE_SOURCE_DIR "" CACHE PATH "Path to a JUCE source checkout")
 
-if(NOT JUCE_FOUND)
-    if(NOT BVS_FETCH_JUCE)
-        message(FATAL_ERROR
-            "JUCE 8 was not found. Set JUCE_DIR/CMAKE_PREFIX_PATH or enable BVS_FETCH_JUCE.")
+if(NOT BVS_JUCE_SOURCE_DIR AND EXISTS "C:/JUCE/CMakeLists.txt")
+    set(BVS_JUCE_SOURCE_DIR "C:/JUCE")
+endif()
+
+if(BVS_JUCE_SOURCE_DIR AND EXISTS "${BVS_JUCE_SOURCE_DIR}/CMakeLists.txt")
+    # Read the version from the local checkout so we can fail fast for incompatible JUCE.
+    file(STRINGS "${BVS_JUCE_SOURCE_DIR}/CMakeLists.txt" _juce_ver_line
+         REGEX "^[ \t]*project\\(JUCE[ \t]" LIMIT_COUNT 1)
+    if(_juce_ver_line MATCHES "VERSION[ \t]+([0-9]+)")
+        set(_juce_major ${CMAKE_MATCH_1})
+        if(_juce_major LESS 8)
+            message(FATAL_ERROR
+                "BVS_JUCE_SOURCE_DIR points to JUCE ${_juce_major}.x, "
+                "but BoratoVHSStyle requires JUCE 8. "
+                "Please update BVS_JUCE_SOURCE_DIR to a JUCE 8 checkout.")
+        endif()
     endif()
+    set(JUCE_BUILD_HELPER_TOOLS ON CACHE BOOL "Build JUCE helper tools in-tree" FORCE)
+    add_subdirectory("${BVS_JUCE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}/juce" EXCLUDE_FROM_ALL)
+else()
+    find_package(JUCE 8 CONFIG QUIET)
 
-    include(FetchContent)
+    if(NOT JUCE_FOUND)
+        if(NOT BVS_FETCH_JUCE)
+            message(FATAL_ERROR
+                "JUCE was not found. Set BVS_JUCE_SOURCE_DIR/JUCE_DIR/CMAKE_PREFIX_PATH or enable BVS_FETCH_JUCE.")
+        endif()
 
-    FetchContent_Declare(
-        juce
-        GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
-        GIT_TAG        8.0.7
-        GIT_SHALLOW    TRUE
-    )
+        include(FetchContent)
 
-    FetchContent_MakeAvailable(juce)
+        FetchContent_Declare(
+            juce
+            GIT_REPOSITORY https://github.com/juce-framework/JUCE.git
+            GIT_TAG        8.0.7
+            GIT_SHALLOW    TRUE
+        )
+
+        FetchContent_MakeAvailable(juce)
+    endif()
 endif()
 
 # ---------------------------------------------------------------------------
