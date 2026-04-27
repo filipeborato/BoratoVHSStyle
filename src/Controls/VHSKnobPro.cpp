@@ -251,9 +251,11 @@ void VHSKnobPro::drawPointer (juce::Graphics& g) const
     g.fillEllipse (tip.x - 2.0f, tip.y - 2.0f, 4.0f, 4.0f);
 }
 
-// ---- Specular highlight --------------------------------------------------
+// ---- Optional specular pass (unused for Pro knob) ------------------------
 void VHSKnobPro::drawSpecular (juce::Graphics& g) const
 {
+    // Intentionally left blank: the Pro knob no longer renders a specular
+    // highlight, but this method is kept as a compatibility hook.
     juce::ignoreUnused (g);
 }
 
